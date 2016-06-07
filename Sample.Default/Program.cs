@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using NHibernate.Cfg;
 using NServiceBus;
 using NServiceBus.Persistence;
+using Configuration = NHibernate.Cfg.Configuration;
 using Environment = NHibernate.Cfg.Environment;
 
 class Program
 {
     static void Main()
     {
+        SqlHelper.CreateDatabase(ConfigurationManager.ConnectionStrings["NServiceBus/Persistence"].ConnectionString);
         Configuration nhConfiguration = new Configuration();
 
         nhConfiguration.SetProperty(Environment.ConnectionProvider, "NHibernate.Connection.DriverConnectionProvider");
@@ -45,5 +48,4 @@ class Program
             Console.ReadKey();
         }
     }
-
 }
